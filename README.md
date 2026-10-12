@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Financial Payment Integration Dashboard
+
+Dashboard untuk memantau dan mengelola integrasi pembayaran secara terpusat. Project ini dibuat untuk memberikan gambaran operasional mengenai status transaksi, ringkasan pembayaran, data customer, serta laporan harian dari sistem pembayaran yang terhubung ke API backend.
+
+## Overview
+
+Project ini adalah aplikasi dashboard berbasis Next.js yang dirancang untuk membantu tim operasional, finance, dan support dalam memantau performa pembayaran dari satu antarmuka. Dashboard ini menampilkan data seperti ringkasan transaksi per mata uang, status pembayaran, customer register, hingga laporan keuangan harian.
+
+## Features
+
+- Monitoring kesehatan API pembayaran
+- Ringkasan transaksi lintas mata uang
+- Daftar transaksi terbaru dengan status pembayaran
+- Filter dan pencarian data transaksi
+- Data customer dan pembuatan customer baru
+- Laporan harian pembayaran
+- General ledger overview
+- Refresh data realtime melalui dashboard
+- Form pembuatan pembayaran dan customer
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- REST API integration
+
+## Project Structure
+
+```bash
+.
+├── app/
+│   ├── api/
+│   │   └── dashboard/
+│   │       └── route.ts
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── payment-dashboard.tsx
+│   └── sales-workspace.tsx
+├── lib/
+│   └── api.ts
+├── public/
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── eslint.config.mjs
+├── next-env.d.ts
+└── README.md
+```
+
+## Prerequisites
+
+Pastikan perangkat Anda telah memiliki:
+
+- Node.js 20+
+- npm, pnpm, yarn, atau bun
 
 ## Getting Started
 
-First, run the development server:
+1. Clone repository
+
+```bash
+git clone <repository-url>
+cd financial-payment-integration-dashboard
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Jalankan aplikasi dalam mode development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Buka browser ke URL berikut:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+```bash
+npm run dev     # start development server
+npm run build   # build production app
+npm run start   # run production build
+npm run lint    # run ESLint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Aplikasi ini menggunakan endpoint API default dari file `lib/api.ts`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```ts
+const API_BASE_URL =
+  process.env.API_BASE_URL ??
+  "https://financial-payment-integration-api.vercel.app";
+```
 
-## Deploy on Vercel
+Jika Anda ingin menggunakan backend lain, set variabel environment berikut:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+export API_BASE_URL=https://your-payment-api-url
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API Integration
+
+Dashboard ini berinteraksi dengan endpoint berikut:
+
+- `/api/v1/payments`
+- `/api/v1/customers`
+- `/api/v1/reports/payment-summary`
+- `/api/v1/reports/daily-payments`
+- `/api/v1/reports/general-ledger`
+- `/health`
+
+Semua data diambil dan diproses melalui `lib/api.ts` agar koneksi backend tetap terpusat dan mudah dikelola.
+
+## Use Case
+
+Project ini cocok digunakan untuk:
+
+- dashboard monitoring pembayaran
+- overview transaksi harian
+- analisis status pembayaran dan settlement
+- administrasi customer dan transaksi
+- prototipe sistem keuangan yang terintegrasi dengan API eksternal
+
+## Notes
+
+Aplikasi ini dibuat sebagai dashboard frontend yang berfungsi dengan API backend payment integration. Jika backend tidak aktif atau endpoint tidak tersedia, beberapa bagian dashboard akan menampilkan status error dan pesan fallback secara aman.
+
+## Contributing
+
+Pull requests dan improvement sangat welcome. Jika Anda ingin menambahkan fitur baru atau memperbaiki UI, silakan buat branch baru dan kirimkan PR dengan deskripsi yang jelas.

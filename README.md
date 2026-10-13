@@ -115,12 +115,21 @@ Dashboard ini berinteraksi dengan endpoint berikut:
 
 - `/api/v1/payments`
 - `/api/v1/customers`
+- `/api/v1/products`
+- `/api/v1/warehouses`
+- `/api/v1/inventory`
+- `/api/v1/inventory/movements`
+- `/api/v1/sales-orders`
+- `/api/v1/sales-orders/{id}`
+- `/api/v1/sales-orders/{id}/confirm`
+- `/api/v1/sales-orders/{id}/deliver`
 - `/api/v1/reports/payment-summary`
 - `/api/v1/reports/daily-payments`
 - `/api/v1/reports/general-ledger`
 - `/health`
 
 Semua data diambil dan diproses melalui `lib/api.ts` agar koneksi backend tetap terpusat dan mudah dikelola.
+Operasi persisten diteruskan melalui backend API yang terhubung ke database Neon; kredensial database tetap berada di backend dan tidak dikirim ke browser.
 
 ## Use Case
 

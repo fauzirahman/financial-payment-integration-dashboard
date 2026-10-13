@@ -4,12 +4,22 @@ import {
   getApiHealth,
   getDailyPaymentReport,
   getGeneralLedger,
+  getInventory,
+  getInventoryMovements,
   getPaymentSummary,
   getPayments,
+  getProducts,
+  getSalesOrders,
+  getWarehouses,
   type Customer,
   type DailyPaymentReport,
+  type InventoryMovement,
+  type InventoryStock,
   type Payment,
   type PaymentSummary,
+  type Product,
+  type SalesOrder,
+  type Warehouse,
 } from "@/lib/api";
 
 export const instant = false;
@@ -22,6 +32,11 @@ export default async function HomePage() {
     customersResult,
     reportResult,
     ledgerResult,
+    productsResult,
+    warehousesResult,
+    inventoryResult,
+    movementsResult,
+    salesOrdersResult,
   ] = await Promise.allSettled([
       getApiHealth(),
       getPaymentSummary(),
@@ -29,6 +44,11 @@ export default async function HomePage() {
       getCustomers(),
       getDailyPaymentReport(),
       getGeneralLedger(),
+      getProducts(),
+      getWarehouses(),
+      getInventory(),
+      getInventoryMovements(),
+      getSalesOrders(),
     ]);
 
   const isApiOnline = healthResult.status === "fulfilled" && healthResult.value;
@@ -40,6 +60,11 @@ export default async function HomePage() {
     customersResult.status === "fulfilled" ? customersResult.value : [];
   const dailyReport: DailyPaymentReport[] =
     reportResult.status === "fulfilled" ? reportResult.value : [];
+  const products: Product[] = productsResult.status === "fulfilled" ? productsResult.value : [];
+  const warehouses: Warehouse[] = warehousesResult.status === "fulfilled" ? warehousesResult.value : [];
+  const inventory: InventoryStock[] = inventoryResult.status === "fulfilled" ? inventoryResult.value : [];
+  const movements: InventoryMovement[] = movementsResult.status === "fulfilled" ? movementsResult.value : [];
+  const salesOrders: SalesOrder[] = salesOrdersResult.status === "fulfilled" ? salesOrdersResult.value : [];
   const businessDate = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     day: "numeric",
@@ -56,6 +81,11 @@ export default async function HomePage() {
       payments={payments}
       customers={customers}
       dailyReport={dailyReport}
+      products={products}
+      warehouses={warehouses}
+      inventory={inventory}
+      movements={movements}
+      salesOrders={salesOrders}
       ledger={ledgerResult.status === "fulfilled" ? ledgerResult.value : null}
       paymentError={
         paymentsResult.status === "rejected"
@@ -77,6 +107,11 @@ export default async function HomePage() {
           ? "General ledger belum dapat dimuat dari API."
           : null
       }
+      productError={productsResult.status === "rejected" ? "Katalog produk gagal dimuat dari API." : null}
+      warehouseError={warehousesResult.status === "rejected" ? "Data gudang gagal dimuat dari API." : null}
+      inventoryError={inventoryResult.status === "rejected" ? "Saldo inventory gagal dimuat dari API." : null}
+      movementError={movementsResult.status === "rejected" ? "Riwayat mutasi gagal dimuat dari API." : null}
+      salesOrderError={salesOrdersResult.status === "rejected" ? "Sales order gagal dimuat dari API." : null}
     />
   );
 }
